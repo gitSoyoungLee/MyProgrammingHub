@@ -53,7 +53,7 @@ public class Main {
         int[] dy = {0, 0, -1, 1};
         int[][] lengths = new int[n][m]; // (0,0)으로부터 (x,y)까지의 거리 정보
         boolean[][] visited = new boolean[n][m]; // 방문한 노드 체크
-        visited[0][0] = true;
+        visited[0][0] = true;   // 시작점은 방문한 노드에 추가
         while(!queue.isEmpty()) {
             int[] current = queue.poll();
             int x = current[0];
@@ -78,7 +78,7 @@ public class Main {
             }
         }
 
-        System.out.println(lengths[n-1][m-1] + 1);
+        System.out.println(lengths[n-1][m-1] + 1);  // 지나간 칸수에 시작점과 도착점을 포함하므로 +1
 
 
     }
