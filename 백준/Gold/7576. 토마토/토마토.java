@@ -59,14 +59,14 @@ public class Main {
 
         while(!queue.isEmpty()) {
             int[] tomato = queue.poll();
-            int r = tomato[1];
-            int c = tomato[0];
+            int r = tomato[0];
+            int c = tomato[1];
             for(int i=0; i<4; i++) {
                 int nr = r + dr[i];
                 int nc = c + dc[i];
-                if(nr >= 0 && nr < N && nc >=0 && nc < M && box[nc][nr]!=-1 && days[nc][nr] < 0) {
-                    queue.offer(new int[]{nc, nr});
-                    days[nc][nr] = days[c][r] + 1;
+                if(nr >= 0 && nr < M && nc >=0 && nc < N && box[nr][nc]!=-1 && days[nr][nc] < 0) {
+                    queue.offer(new int[]{nr, nc});
+                    days[nr][nc] = days[r][c] + 1;
                 }
             }
         }
