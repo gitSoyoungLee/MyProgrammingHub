@@ -1,0 +1,43 @@
+
+import java.util.Scanner;
+import java.io.FileInputStream;
+
+class Solution
+{
+	public static void main(String args[]) throws Exception
+	{
+		
+		Scanner sc = new Scanner(System.in);
+		int T;
+		T=sc.nextInt();
+
+		for(int test_case = 1; test_case <= T; test_case++)
+		{
+            char[] ca = sc.next().toCharArray();
+		
+			int[] goal = new int[ca.length];
+		
+		
+			for(int i=0; i<ca.length; i++) {
+	    		goal[i] = ca[i] - '0';
+	    	}
+	    
+	   	 	int count = 0;
+	    
+	    	int[] curr = new int[ca.length];
+	    
+	    	for(int i=0; i<ca.length; i++) {
+	    		if(goal[i] == curr[i]) continue;
+	    	
+	    		for(int j=i; j<ca.length; j++)
+	    			curr[j] = (curr[j]==1)? 0 : 1;
+	    		count++;
+	    	
+	    	}
+
+	    	System.out.println("#" + test_case + " " +count);
+            
+
+		}
+	}
+}
