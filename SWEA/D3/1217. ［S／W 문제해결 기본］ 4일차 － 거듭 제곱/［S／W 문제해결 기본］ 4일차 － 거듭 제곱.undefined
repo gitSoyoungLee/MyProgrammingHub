@@ -1,0 +1,25 @@
+import java.util.Scanner;
+
+class Solution {
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		
+		int T = 10;
+		for(int test_case = 1; test_case <=T; test_case++) {
+			int test_case_num = sc.nextInt();
+			int N = sc.nextInt();
+			int M = sc.nextInt();
+			
+			System.out.println("#"+test_case+" "+recursion(1, N, 0, M));
+		}
+		
+		sc.close();
+	}
+	
+	static int recursion(int result, int num, int curr, int end) {
+		if(curr!=end) {
+			return recursion(result * num, num, curr + 1, end);
+		}
+		return result;
+	}
+}
