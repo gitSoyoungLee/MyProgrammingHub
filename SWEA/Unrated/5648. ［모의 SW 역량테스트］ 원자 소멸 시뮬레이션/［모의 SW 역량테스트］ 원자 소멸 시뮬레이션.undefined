@@ -1,0 +1,117 @@
+import java.io.*;
+import java.util.*;
+
+public class Solution {
+
+    static class Atom {
+        int x, y, dir, energy;
+
+        Atom(int x, int y, int dir, int energy) {
+            this.x = x;
+            this.y = y;
+            this.dir = dir;
+            this.energy = energy;
+        }
+    }
+
+    static int N;
+
+    // 상(0), 하(1), 좌(2), 우(3)
+    static int[] dx = {0, 0, -1, 1};
+    static int[] dy = {1, -1, 0, 0};
+
+    // 원래 좌표 -1000 ~ 1000
+    // 2배하면 -2000 ~ 2000
+    static final int LIMIT = 2000;
+    static final int OFFSET = 2000;
+    static final int SIZE = 4001;
+
+    static int[][] map = new int[SIZE][SIZE];
+
+    public static void main(String[] args) throws Exception {
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder sb = new StringBuilder();
+        StringTokenizer st;
+
+        int T = Integer.parseInt(br.readLine());
+
+        for (int tc = 1; tc <= T; tc++) {
+
+            N = Integer.parseInt(br.readLine());
+
+            List<Atom> atoms = new ArrayList<>();
+
+            for (int i = 0; i < N; i++) {
+                st = new StringTokenizer(br.readLine());
+
+                int x = Integer.parseInt(st.nextToken()) * 2;
+                int y = Integer.parseInt(st.nextToken()) * 2;
+                int dir = Integer.parseInt(st.nextToken());
+                int energy = Integer.parseInt(st.nextToken());
+
+                atoms.add(new Atom(x, y, dir, energy));
+            }
+
+            int answer = 0;
+
+            while (!atoms.isEmpty()) {
+
+                List<Atom> moved = new ArrayList<>();
+
+                // 1. 모든 원자 이동
+                for (Atom atom : atoms) {
+
+                    atom.x += dx[atom.dir];
+                    atom.y += dy[atom.dir];
+
+                    // 이 범위를 벗어나면 이후 충돌 가능성이 없음
+                    if (atom.x < -LIMIT || atom.x > LIMIT ||
+                        atom.y < -LIMIT || atom.y > LIMIT) {
+                        continue;
+                    }
+
+                    moved.add(atom);
+
+                    int mx = atom.x + OFFSET;
+                    int my = atom.y + OFFSET;
+
+                    map[mx][my]++;
+                }
+
+                // 2. 충돌하지 않은 원자만 다음 턴으로 넘김
+                List<Atom> next = new ArrayList<>();
+
+                for (Atom atom : moved) {
+
+                    int mx = atom.x + OFFSET;
+                    int my = atom.y + OFFSET;
+
+                    if (map[mx][my] >= 2) {
+                        answer += atom.energy;
+                    } else {
+                        next.add(atom);
+                    }
+                }
+
+                // 3. 이번 턴에 사용한 좌표만 초기화
+                for (Atom atom : moved) {
+                    int mx = atom.x + OFFSET;
+                    int my = atom.y + OFFSET;
+
+                    map[mx][my] = 0;
+                }
+
+                atoms = next;
+            }
+
+            sb.append("#")
+              .append(tc)
+              .append(" ")
+              .append(answer)
+              .append("\n");
+        }
+
+        System.out.print(sb);
+    }
+}
